@@ -6,7 +6,7 @@
       "name": "Voke API",
       "options": {
         "baseURL": "https://api.vokeapi.com/v1",
-        "apiKey": "{env:VOKE_API_KEY}"
+        "apiKey": "${VOKE_API_KEY}"
       },
       "models": {
         "grok-4.7": { "name": "Grok 4.7" },

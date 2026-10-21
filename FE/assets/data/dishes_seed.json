@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "name_vi": "Bún chả cá Đà Nẵng",
+    "hidden_ingredients": "Nước dùng ninh xương heo, chả cá, mắm ruốc, mỡ hành",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bún nước",
+    "notes": "Nước dùng truyền thống ninh từ xương heo và cá biển, nêm mắm ruốc đặc trưng xứ Quảng."
+  },
+  {
+    "id": 2,
+    "name_vi": "Mì Quảng Gà",
+    "hidden_ingredients": "Nước lèo gà, phi dầu phộng và củ nén, rắc đậu phộng rang trên mặt",
+    "contains_pork": false,
+    "contains_peanut": true,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Mì Quảng",
+    "notes": "Mì Quảng truyền thống luôn phi dầu phộng với củ nén tạo mùi thơm nồng và rắc nhiều đậu phộng rang."
+  },
+  {
+    "id": 3,
+    "name_vi": "Bánh xèo nấm chay",
+    "hidden_ingredients": "Nấm tươi, bột gạo, nước cốt dừa, dầu đậu nành thực vật",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh truyền thống",
+    "notes": "Món ăn thuần chay an toàn, dùng nước tương đậu nành thay vì mắm nêm."
+  },
+  {
+    "id": 4,
+    "name_vi": "Ram bắp gia truyền",
+    "hidden_ingredients": "Bắp non nạo, bánh tráng cuốn mơ hồ, có thể chiên chung chảo dầu mỡ lợn",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": true,
+    "category": "Món chiên vỉa hè",
+    "notes": "Vỏ ram có thể pha bột mì hoặc chiên chung dầu chiên thịt chả, cần nhân viên bếp xác nhận."
+  },
+  {
+    "id": 5,
+    "name_vi": "Mì Quảng Ếch",
+    "hidden_ingredients": "Thịt ếch um sả nghệ, dầu phộng phi củ nén, đậu phộng rang",
+    "contains_pork": false,
+    "contains_peanut": true,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Mì Quảng",
+    "notes": "Ếch không phù hợp với một số chế độ ăn Halal nghiêm ngặt; chứa dầu phộng."
+  },
+  {
+    "id": 6,
+    "name_vi": "Bánh tráng cuốn thịt heo Đại Lộc",
+    "hidden_ingredients": "Thịt ba chỉ heo luộc, mắm nêm cá cơm cốt, mè rang",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh cuốn",
+    "notes": "Thịt heo rõ ràng; mắm nêm cá cơm đậm vị biển miền Trung."
+  },
+  {
+    "id": 7,
+    "name_vi": "Gỏi cá Nam Ô (Gỏi khô)",
+    "hidden_ingredients": "Cá trích tươi tái chanh, thính gạo rang, mè, ớt bột, gừng riềng",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Hải sản sống",
+    "notes": "Cá trích tươi sống, không phù hợp cho phụ nữ mang thai hoặc người có hệ tiêu hóa yếu."
+  },
+  {
+    "id": 8,
+    "name_vi": "Bún mắm nêm thịt quay",
+    "hidden_ingredients": "Thịt heo quay giòn bì, mắm nêm cá cơm cốt, đậu phộng rang, dầu màu điều",
+    "contains_pork": true,
+    "contains_peanut": true,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bún trộn",
+    "notes": "Vừa có thịt heo, vừa có đậu phộng rang và mắm cá cơm nồng độ cao."
+  },
+  {
+    "id": 9,
+    "name_vi": "Cao lầu Hội An - Đà Nẵng",
+    "hidden_ingredients": "Thịt xá xíu heo, tóp mỡ chiên giòn, nước tương gia truyền, rau thơm Trà Quế",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Mì trộn",
+    "notes": "Thịt heo xá xíu và tóp mỡ chiên giòn."
+  },
+  {
+    "id": 10,
+    "name_vi": "Bánh xèo nem lụi tôm nhảy",
+    "hidden_ingredients": "Tôm tươi, thịt heo băm, nem lụi giò sống heo nướng than, nước chấm gan heo xay đậu phộng",
+    "contains_pork": true,
+    "contains_peanut": true,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh truyền thống",
+    "notes": "Nước chấm tương đậu có gan heo và đậu phộng xay nhuyễn."
+  },
+  {
+    "id": 11,
+    "name_vi": "Chè xoa xoa hạt lựu",
+    "hidden_ingredients": "Rau câu xoa xoa tự nhiên, củ năng bọc bột lọc (hạt lựu), nước cốt dừa, đường phèn",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Tráng miệng",
+    "notes": "Thanh mát giải nhiệt mùa hè, thuần chay và an toàn cho đa số du khách."
+  },
+  {
+    "id": 12,
+    "name_vi": "Bánh bèo chén Đà Nẵng",
+    "hidden_ingredients": "Bột gạo hấp, nhân tôm thịt heo xào quánh, da heo chiên giòn (tóp mỡ)",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh Huế - Quảng",
+    "notes": "Có da heo chiên giòn rắc trên mặt chén."
+  },
+  {
+    "id": 13,
+    "name_vi": "Bánh nậm lá dong",
+    "hidden_ingredients": "Bột gạo, tôm băm xào thịt ba chỉ heo, nước mắm chấm chua ngọt",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh Huế - Quảng",
+    "notes": "Nhân có thịt heo và tôm biển."
+  },
+  {
+    "id": 14,
+    "name_vi": "Bánh bột lọc tôm thịt",
+    "hidden_ingredients": "Bột năng trong vắt, tôm đất rim đậm, thịt heo mỡ",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh Huế - Quảng",
+    "notes": "Nhân tôm thịt heo rim mặn ngọt."
+  },
+  {
+    "id": 15,
+    "name_vi": "Chíp chíp hấp sả ớt",
+    "hidden_ingredients": "Nghêu chíp chíp sông Hàn / biển Đà Nẵng, sả cây, ớt hiểm, tiêu sọ",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Hải sản",
+    "notes": "Hải sản nhuyễn thể, chống chỉ định cho người dị ứng hải sản có vỏ."
+  },
+  {
+    "id": 16,
+    "name_vi": "Ốc hút nước cốt dừa",
+    "hidden_ingredients": "Ốc bươu/ốc đá, sả, gừng, ớt cay xé lưỡi, nước cốt dừa, mắm ốc",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Ăn vặt vỉa hè",
+    "notes": "Độ cay rất cao, người có bệnh dạ dày nên cẩn trọng."
+  },
+  {
+    "id": 17,
+    "name_vi": "Bánh tráng đập dập chấm mắm nêm",
+    "hidden_ingredients": "Bánh tráng nướng mè kẹp bánh ướt mềm, hành phi dầu phụng, mắm nêm cá cơm cốt",
+    "contains_pork": false,
+    "contains_peanut": true,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Ăn vặt",
+    "notes": "Hành phi bằng dầu phộng, mắm nêm nồng độ cao."
+  },
+  {
+    "id": 18,
+    "name_vi": "Cơm gà xối mỡ Đà Nẵng",
+    "hidden_ingredients": "Gà luộc xé bóp hành tây rau răm, cơm chiên nghệ, súp lòng gà ninh xương",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Cơm",
+    "notes": "Cần kiểm tra gà mổ theo quy chuẩn Halal nếu du khách Hồi giáo yêu cầu khắt khe."
+  },
+  {
+    "id": 19,
+    "name_vi": "Bánh canh cá lóc nước trong",
+    "hidden_ingredients": "Sợi bánh bột gạo/lọc, cá lóc đồng rim nén nghệ, nước dùng hầm xương cá và củ quả",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Bún nước",
+    "notes": "Nước dùng cá thanh ngọt, không có thịt heo."
+  },
+  {
+    "id": 20,
+    "name_vi": "Kem bơ cô Vân chợ Bắc Mỹ An",
+    "hidden_ingredients": "Bơ sáp tươi xay đặc, kem vani ngọt mát, dừa sấy khô, cốt dừa",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Tráng miệng",
+    "notes": "Chứa sữa và dừa sấy; an toàn tuyệt đối cho người ăn chay có sữa (lacto-vegetarian)."
+  }
+]

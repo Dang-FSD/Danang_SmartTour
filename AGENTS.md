@@ -36,13 +36,16 @@ Smart tourism companion app for Da Nang, Vietnam. Core value: **Dual-Layer Prote
 2. **Mid-term**: B2B2C dashboard for local businesses (restaurants, craft villages, tour operators) to push verified data (Halal/Vegan certs, trail difficulty)
 3. **Long-term**: AR navigation in night markets/alleys; expand to Hoi An, Hue, internationally
 
-## Getting Started (when code exists)
+## Getting Started
 ```bash
-# Expected structure (not yet created)
+# Di chuyển vào thư mục Frontend
+cd FE
+
+# Lấy thư viện và chạy ứng dụng
 flutter pub get
 flutter run
 ```
-Supabase project must be provisioned first (schema for `traveler_profiles`, `dishes`, `attractions`, `itineraries`, `safety_tickets`).
+Supabase project schema đã có tại `BE/DB/Danang_SmartTour_DB.sql`.
 
 ## References
 - Full spec: `Documment_Project/extracted_content.txt`

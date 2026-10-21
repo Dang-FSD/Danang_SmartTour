@@ -1,0 +1,46 @@
+name: danang_smarttour
+description: "DaNang SmartTour AI - Trợ lý Du lịch Thông minh & Tiếp cận Toàn diện tại Đà Nẵng"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management & Routing
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+
+  # Backend & Network
+  supabase_flutter: ^2.5.6
+  flutter_dotenv: ^5.1.0
+  http: ^1.2.1
+
+  # Maps & GIS (Hoàn toàn miễn phí, không tốn phí Google Maps Platform)
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  url_launcher: ^6.3.0
+
+  # Camera & Media
+  image_picker: ^1.1.2
+
+  # Utilities
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  cached_network_image: ^3.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/data/

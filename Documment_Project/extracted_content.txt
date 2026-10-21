@@ -1,0 +1,135 @@
+DaNang SmartTour AI
+Trợ lý Du lịch Thông minh & Tiếp cận Toàn diện tại Thành phố Đà Nẵng
+1. THÔNG TIN CHUNG DỰ ÁN
+Tên dự án: DaNang SmartTour AI (Trợ lý Du lịch Thông minh, Phân luồng Điểm đến & Hỗ trợ Tiếp cận Toàn diện tại Đà Nẵng về du lịch y tế và đặc trưng văn hóa)
+Chủ đề đăng ký: Du lịch Văn hóa và Thể thao (Cultural Tourism and Sports)+ Y Tế+ Văn Hóa
+Địa bàn trọng tâm: Thành phố Đà Nẵng (Bán đảo Sơn Trà, Di tích Ngũ Hành Sơn, Bảo tàng Điêu khắc Chăm, Làng đá Non Nước, Chợ Cồn, Chợ Đêm Sơn Trà, Phố du lịch An Thượng...).
+2. BẢNG ĐỐI CHIẾU KHỚP CHỦ ĐỀ & 9 TIÊU CHÍ CHECKLIST CỦA CUỘC THI
+Bảng ma trận đối chiếu giữa Chủ đề đăng ký (Du lịch Văn hóa - Thể thao & Tiếp cận Toàn diện tại Đà Nẵng) với 9 tiêu chí đánh giá phạm vi ý tưởng của Ban tổ chức:
+STT
+Tiêu chí đánh giá
+Câu hỏi tự soi của BTC
+Giải pháp đáp ứng của DaNang SmartTour AI
+Mối liên kết với Chủ đề & Bối cảnh Đà Nẵng
+1
+Người thụ hưởng gọi tên được
+Ai dùng sản phẩm này? Họ đang xoay xở thế nào hôm nay?
+• Du khách quốc tế/nội địa có rào cản ăn uống & y tế khắt khe:  Ví dụ: Khách theo đạo Hồi (Halal), người dị ứng nặng hải sản/đậu phộng, người có bệnh lý tim mạch. • Cách họ đang xoay xở: Dùng Google Dịch quét menu nhưng không hiểu thành phần ẩn; sợ sốc phản vệ nên chỉ ăn đồ hộp/chuỗi thức ăn nhanh phương Tây; không dám tham gia trekking Sơn Trà hay leo dốc Ngũ Hành Sơn vì thiếu thông tin an toàn thể lực.
+Tiếp cận Toàn diện (Inclusive Access): Xóa bỏ rào cản thể trạng và tôn giáo để mọi đối tượng bình đẳng trải nghiệm văn hóa ẩm thực và thắng cảnh Đà Nẵng.
+2
+AI là bắt buộc
+Bỏ phần AI đi, bài toán có còn khó không?
+• Ẩm thực xứ Quảng chứa rất nhiều thành phần ẩn mơ hồ (nước lèo Mì Quảng/Bún chả cá ninh từ xương heo, dầu màu điều, mỡ lợn phi củ nén, rắc đậu phộng rang). Web tra cứu từ khóa hay SQL filter không thể suy luận được món "Mì Quảng ếch" hay "Bánh tráng cuốn" có dính dầu phộng hay mắm nêm không. • Phân luồng động (Dynamic Routing) cần AI tổng hợp dữ liệu kẹt xe tại Cầu Rồng/Chợ Hàn để gợi ý tuyến thay thế theo thời gian thực.
+Du lịch Văn hóa: Giải mã tri thức di sản ẩm thực bản địa và kiến trúc di tích cổ vật Chăm Pa mà công cụ tra cứu thông thường không làm được.
+3
+Agent hành động, không chỉ trả lời
+Agent làm thay người việc gì? Có công cụ ghi dữ liệu không?
+• create_custom_safe_itinerary: Tạo và lưu bản ghi lịch trình thích ứng thể lực/sở thích vào database. • re_route_and_dispatch_alert: Tự động tái điều hướng cung đường khi phát hiện điểm nghẽn và ghi nhận phân luồng. • generate_chef_dietary_ticket: Xuất thẻ cảnh báo dị ứng song ngữ (Việt - Anh) kèm mã định danh cho quán ăn địa phương.
+Văn hóa & Thể thao: Hành động phân luồng từ điểm quá tải sang làng nghề Non Nước/bảo tàng, và kích hoạt dẫn đường an toàn cho tuyến thể thao mạo hiểm.
+4
+Một luồng chính, chạy trọn vẹn
+Luồng từ lúc mở lên đến lúc xong là gì? (5–7 công cụ)
+Luồng End-to-End trọn vẹn: 1. get_traveler_profile: Đọc hồ sơ y tế/tín ngưỡng/thể lực. 2. fetch_danang_attractions: Lấy danh sách điểm đến theo mục đích (Văn hóa, Trekking/SUP, Ẩm thực). 3. check_route_crowd_and_safety: Đánh giá mật độ điểm đến và độ dốc/nguy cơ thể lực. 4. generate_adaptive_itinerary: Thiết lập lộ trình tối ưu và cung đường thay thế. 5. save_itinerary_ticket: Ghi lịch trình vào hệ thống. 6. verify_itinerary_status: Xác minh toàn vẹn bản ghi lịch trình. 7. launch_navigation_deeplink: Kích hoạt dẫn đường trực quan.
+Xuyên suốt chuỗi hành trình khám phá các danh thắng, cung trekking Sơn Trà và quán ẩm thực truyền thống Đà Nẵng.
+5
+Nêu được điều Agent KHÔNG được làm
+Ranh giới ở đâu? Việc nào phải xin xác nhận?
+• Không tự quyết khi rủi ro cao: Tiền sử sốc phản vệ hoặc bệnh tim mạch độ nặng → Agent tuyệt đối không tự cấp cờ "An toàn" cho các tour trekking Mũi Nghê hiểm trở hay món ăn chiên chung dầu, mà bắt buộc dừng lại cảnh báo người dùng. • Không tự động thanh toán: Không can thiệp giao dịch tài chính. • Bảo mật dữ liệu nhạy cảm: Không chia sẻ hồ sơ bệnh án chi tiết cho các bên thứ ba hay nhà hàng.
+Tiếp cận Toàn diện & Thể thao: Thiết lập ranh giới an toàn tuyệt đối cho tính mạng và sức khỏe du khách khi vận động mạnh hoặc ăn uống.
+6
+Có chỗ bắt buộc xác minh
+Hành động nào “báo thành công” chưa chắc đã xong?
+Sau khi gọi save_itinerary_ticket hoặc generate_chef_dietary_ticket, Agent bắt buộc thực thi công cụ verify_itinerary_status(ticket_id) để đọc ngược lại database, kiểm tra chuỗi cờ an toàn (allergy_flags, health_warnings) đã lưu đầy đủ chưa, tránh lỗi mạng làm mất dữ liệu cảnh báo an toàn.
+Đảm bảo tính sẵn sàng và chính xác của dữ liệu an toàn sức khỏe trước khi du khách xuất phát đi tham quan/thể thao.
+7
+Dữ liệu nằm trong tầm tay
+Lấy dữ liệu ở đâu, bao giờ có?
+• Số hóa cục bộ: Tự xây dựng cơ sở dữ liệu SQLite/JSON gồm 40 món ăn đặc sản Đà Nẵng (bóc tách thành phần ngầm) và 20 điểm tham quan văn hóa/tuyến thể thao tại Đà Nẵng. • Hình ảnh thực địa: Tự chụp và số hóa ảnh menu tại các quán ẩm thực Hải Châu, Ngũ Hành Sơn và bảng chỉ dẫn tại Bán đảo Sơn Trà.
+Địa phương hóa Đà Nẵng: Dữ liệu hoàn toàn kiểm chứng được tại chỗ, không phụ thuộc vào API độc quyền trả phí của bên thứ ba.
+8
+Đúng/sai phán xử được
+6–10 ca kiểm thử có đáp án rõ ràng không?
+Xây dựng bộ 8 ca kiểm thử có ground-truth nhị phân: • Ca 1: Khách Halal - Bún chả cá Đà Nẵng có nước dùng xương heo → Bắt buộc cờ ĐỎ (Vi phạm). • Ca 2: Khách tim mạch - Trekking Mũi Nghê dốc cao → Bắt buộc cờ ĐỎ (Nguy hiểm thể lực), đề xuất đổi sang dạo bộ ngắm Voọc. • Ca 3: Khách dị ứng đậu phộng - Mì Quảng gà → Cờ VÀNG, kích hoạt cảnh báo không rắc lạc. • Ca 4: Khách ăn chay - Bánh xèo nấm → Cờ XANH (An toàn). • Ca 5: Cầu Rồng quá tải giờ phun lửa → Tự động kích hoạt phân luồng sang Làng đá Non Nước. • Ca 6: Lỗi mạng khi ghi vé → Rollback và thông báo xác minh thất bại. • Ca 7: Khách thể lực tốt - Đăng ký chèo SUP biển Mỹ Khê → Cờ XANH. • Ca 8: Món Ram bắp mơ hồ thành phần → Yêu cầu xác nhận nhân viên bếp.
+Bao phủ đầy đủ 3 chân kiềng: Thể thao mạo hiểm, Di tích văn hóa và Ẩm thực xứ Quảng.
+9
+Hai chỉ số tác động
+Đo bằng gì? (2 con số định lượng cụ thể)
+1. Tỷ lệ nhận diện chính xác thành phần rủi ro ẩn (Hidden Allergen & Health Risk Recall): Đạt tối thiểu $95\%$ trên tập kiểm thử. 2. Tỷ lệ xác minh lịch trình/vé an toàn thành công (Verified Safety Rate): Đạt $100\%$ (cam kết không có trường hợp khẳng định an toàn sai - Zero False-Safety).
+Khẳng định tính hiệu quả và độ tin cậy trong quản lý du lịch an toàn, bền vững tại Đà Nẵng.
+3. NỘI DUNG DỰ ÁN
+I. Tổng quan về VẤN ĐỀ giải quyết
+Mỗi năm, hàng triệu du khách đến thăm Đà Nẵng. Dù ngành du lịch mang lại lợi ích kinh tế lớn, thành phố và du khách đang đối mặt với những điểm nghẽn nghiêm trọng:
+Rào cản Tiếp cận Văn hóa và Ẩm thực (Cultural & Culinary Barriers): Du khách quốc tế và nội địa thường gặp khó khăn trong việc hiểu sâu về văn hóa di sản xứ Quảng hoặc e ngại khi thử các món ăn đặc sản Đà Nẵng. Đặc biệt, những người có rào cản về sức khỏe (dị ứng nghiêm trọng như hải sản, đậu phộng) hoặc rào cản tín ngưỡng (chế độ ăn Halal của khách Hồi giáo, Kosher, thuần chay) thường cảm thấy bất an và bị giới hạn lựa chọn khi trải nghiệm ẩm thực vỉa hè, chợ truyền thống.
+Vấn nạn Quá tải Du lịch (Overtourism): Du khách có xu hướng đổ dồn vào một vài "điểm nóng" quen thuộc (Cầu Rồng lúc phun lửa, đỉnh Bàn Cờ, chùa Linh Ứng Sơn Trà, Chợ Hàn...). Điều này gây ùn ứ giao thông, làm quá tải hạ tầng cục bộ và phá vỡ không gian sống của cư dân địa phương.
+Sự đứt gãy trong Trải nghiệm số (Fragmented Digital Experience): Du khách phải dùng ChatGPT/AI để hỏi tìm quán ăn, sau đó lại phải mở Google Maps để tự tìm đường và tự kiểm tra xem quán có đang kẹt xe không. Không có một trợ lý duy nhất nào đi theo trọn vẹn luồng hành trình (User Flow) từ khâu "chuẩn bị lịch trình" đến lúc "ngồi tại điểm đến ở Đà Nẵng".
+II. Tổng quan về GIẢI PHÁP
+DaNang SmartTour AI là Trợ lý Du lịch Thông minh (Smart Tourism Companion), tận dụng sức mạnh của AI Đa phương thức (Multimodal AI) và Dữ liệu Không gian (GIS) để tái định nghĩa cách du khách khám phá Đà Nẵng. Giải pháp xoay quanh một "Hồ sơ Du khách" (Traveler Profile) lưu trữ các tùy chọn về sức khỏe, tôn giáo và sở thích, từ đó cấp nguồn dữ liệu cho 2 nhóm tính năng cốt lõi:
+1. Tính năng Lập kế hoạch & Điều hướng Động (Smart Itinerary & Dynamic Routing) – Dành cho việc lên kế hoạch:
+AI Itinerary Planner (Lập kế hoạch theo Mục tiêu): Tạo lịch trình du lịch cá nhân hóa tại Đà Nẵng dựa trên ngân sách, thời gian và thời tiết. Người dùng có thể tạo mới nhiều chuyến đi (New Trips), hệ thống tự động kế thừa và áp dụng dữ liệu dị ứng, y tế, tín ngưỡng từ "Hồ sơ Du khách" lõi. AI thiết kế cung đường hoàn toàn khác biệt dựa trên Mục đích chuyến đi:
+Khám phá Văn hóa & Tham quan: Tuyến đường liên kết Bảo tàng Điêu khắc Chăm, Di tích Ngũ Hành Sơn, Thành Điện Hải, Làng nghề đá mỹ nghệ Non Nước, Làng chiếu Cẩm Nê.
+Trải nghiệm Mạo hiểm & Thể thao: Tuyến đường hướng đến các cung trekking Bán đảo Sơn Trà (Mũi Nghê, Đỉnh Bàn Cờ), lướt ván / dù lượn biển Mỹ Khê, chèo SUP trên sông Hàn (AI sẽ tự động cảnh báo nếu người dùng có tiền sử bệnh tim mạch hoặc thể lực không phù hợp).
+Khám phá Ẩm thực (Food Tour): Tuyến đường tập trung vào các nhà hàng và quán ăn địa phương (Mì Quảng, Bún chả cá, Bánh xèo nem lụi...) – tất cả đều được hệ thống lọc trước, đảm bảo an toàn tuyệt đối với tiền sử dị ứng và tín ngưỡng của người dùng.
+Điều tiết đám đông (Crowd-Aware Routing): Nếu một điểm tham quan tại Đà Nẵng đang quá tải (overcrowded) hoặc kẹt xe (ví dụ: khu vực Cầu Rồng vào tối cuối tuần, Chợ Hàn giờ cao điểm), AI sẽ tự động phân luồng (Re-route), gợi ý du khách chuyển hướng sang các điểm tham quan văn hóa hoặc điểm đến bản địa lân cận ít đông đúc hơn.
+Dẫn đường liền mạch: Chuyển tiếp lịch trình sang chế độ điều hướng trực quan, xóa bỏ hoàn toàn sự đứt gãy trải nghiệm.
+2. Tính năng Vệ sĩ Văn hóa & Y tế tại chỗ (On-Demand Cultural & Health Scanner) – Dành cho tương tác tại điểm đến:
+Du khách sử dụng Camera (tích hợp AI Vision) để quét trực tiếp vào một di tích lịch sử hoặc một món ăn/menu tại Đà Nẵng:
+Phân tích Y tế & Tôn giáo sâu: AI không chỉ dịch tên món ăn mà phân tích sâu thành phần ẩn. Ví dụ: Quét tô Mì Quảng hoặc Bún chả cá Đà Nẵng, AI sẽ cảnh báo: "Nước dùng này được ninh từ xương heo và dùng dầu màu điều, an toàn cho người kiêng hải sản nhưng không phù hợp với người Hồi giáo (Halal) hoặc người ăn chay thuần; món có rắc đậu phộng rang trên mặt."
+Kể chuyện Văn hóa (Cultural Storytelling): Quét một ngôi chùa ở Ngũ Hành Sơn hoặc cổ vật Chăm, AI đóng vai trò hướng dẫn viên số, kể câu chuyện lịch sử bằng ngôn ngữ của người dùng và nhắc nhở về quy định trang phục (dress code).
+III. TÍNH ĐỘC ĐÁO & ĐẶC BIỆT CỦA GIẢI PHÁP
+Sự khác biệt cốt lõi của DaNang SmartTour AI là khả năng biến Sự an toàn cá nhân và Khám phá Văn hóa thành một trải nghiệm liền mạch thông qua cơ chế Bảo vệ Kép (Dual-Layer Protection). Các ứng dụng hiện tại chỉ tập trung vào việc giới thiệu "Địa điểm đẹp nhất". DaNang SmartTour AI định nghĩa lại sự hoàn hảo cho chuyến du lịch Đà Nẵng: "An toàn nhất cho thể trạng/tín ngưỡng của bạn + Phù hợp nhất với mục tiêu chuyến đi + Dễ tiếp cận nhất tại thời điểm hiện tại (tránh quá tải)".
+Đóng góp trực tiếp vào các Mục tiêu Phát triển Bền vững (SDGs):
+SDG 11 (Thành phố Bền vững): Phân luồng du khách thông minh (Smart Routing) giúp giải quyết bài toán Overtourism tại các điểm nóng Đà Nẵng, giảm áp lực lên hạ tầng đô thị.
+SDG 8 (Tăng trưởng Kinh tế): Điều hướng du khách từ các tụ điểm quá tải sang các doanh nghiệp, quán ăn, làng nghề địa phương lân cận, thúc đẩy kinh tế bao trùm.
+SDG 10 (Giảm Bất bình đẳng): Xóa bỏ rào cản du lịch cho những nhóm yếu thế có yêu cầu khắt khe về y tế hoặc tôn giáo (Inclusive Tourism).
+IV. KẾ HOẠCH PHÁT TRIỂN TRONG TƯƠNG LAI
+Giai đoạn 1 (Ngắn hạn - Kiểm chứng): Tích hợp sâu AI Vision để nhận diện chính xác các đặc sản ẩm thực và di tích văn hóa đặc trưng tại Đà Nẵng. Thử nghiệm Beta với cộng đồng du khách quốc tế đến Đà Nẵng và nhóm người dùng có chế độ ăn kiêng / rào cản sức khỏe.
+Giai đoạn 2 (Trung hạn - Hệ sinh thái B2B2C): Cung cấp Dashboard cho các doanh nghiệp du lịch địa phương tại Đà Nẵng (nhà hàng, cơ sở thủ công mỹ nghệ Non Nước, đơn vị tour trekking) cập nhật dữ liệu (bảng thành phần món ăn, chứng nhận Halal/Vegan, độ khó tuyến đường) lên nền tảng. AI ưu tiên đề xuất các doanh nghiệp minh bạch dữ liệu, tạo động lực phát triển du lịch bền vững.
+Giai đoạn 3 (Dài hạn - AR & Toàn cầu hóa): Tích hợp công nghệ Điều hướng Thực tế Tăng cường (AR Navigation) để hướng dẫn du khách tại các khu phố đêm, kiệt hẻm ẩm thực Đà Nẵng. Mở rộng mô hình dữ liệu văn hóa ra các tỉnh thành lân cận (Hội An, Huế) và quốc tế.
+V. KIẾN TRÚC CÔNG NGHỆ 
+Để đảm bảo hiệu quả kinh tế, tránh phát sinh chi phí lớn từ Google Maps Platform nhưng vẫn giữ nguyên trải nghiệm liền mạch:
+AI Vision & Multimodal Reasoning:
+Tận dụng Gemini API (Gói Free Tier) cho các tác vụ suy luận phân tích thành phần món ăn và thuyết minh di tích.
+Kết hợp thư viện tiền xử lý OCR mã nguồn mở (Tesseract OCR / PaddleOCR) để trích xuất text bảng hiệu, menu trước khi gửi vào mô hình, giúp tiết kiệm đến $80\%$ lượng token thị giác.
+Hạ tầng Bản đồ & Không gian (GIS) – Thay thế Google Maps Platform tốn phí:
+Thay vì dùng Google Places API & Routes API tốn phí theo từng lượt gọi, dự án chuyển sang sử dụng OpenStreetMap (OSM) / Leaflet kết hợp dữ liệu mở để biểu diễn bản đồ và hiển thị điểm đến.
+Với tính năng Dẫn đường (Turn-by-turn Navigation): Khi người dùng chốt lịch trình, hệ thống tạo Universal Deep-Link để kích hoạt ứng dụng bản đồ mặc định sẵn có trên máy người dùng (Google Maps / Apple Maps), không tốn chi phí nhúng Navigation SDK bản quyền.
+Cơ sở Dữ liệu & Lưu trữ (Thay thế Google Cloud Run & Firestore):
+Sử dụng Supabase (Bản Free Tier - PostgreSQL + Auth + Storage) để lưu trữ "Hồ sơ Du khách" (bệnh lý, dị ứng, tín ngưỡng) và dữ liệu địa điểm du lịch Đà Nẵng, đảm bảo độ trễ thấp và bảo mật cao mà không tốn phí duy trì serverless đắt đỏ.
+Giao diện Ứng dụng:
+Xây dựng trên nền tảng Flutter đảm bảo trải nghiệm mượt mà đa nền tảng (iOS / Android) khi đồng thời xử lý Camera Scanner, Bản đồ hiển thị và Giao diện Trợ lý thông minh.
+VI. DỮ LIỆU BẰNG CHỨNG THỰC TẾ TẠI ĐÀ NẴNG
+Câu chuyện người dùng (Mô phỏng/Thực tế tại Đà Nẵng): Trong quá trình thử nghiệm tính năng "Vệ sĩ Văn hóa & Y tế", nhóm nhận thấy tác động to lớn đến tâm lý du khách. Một du khách Hồi giáo trải nghiệm bản thử nghiệm chia sẻ:"Là một người theo đạo Hồi đến Đà Nẵng, tôi rất lo sợ việc vô tình ăn phải thịt heo hoặc mỡ động vật ẩn trong nước dùng Mì Quảng hay Bún chả cá. Khi đứng trước một quán ăn rất đông đúc gần Chợ Hàn, AI của DaNang CityLens không chỉ quét nhận diện món ăn báo 'Không an toàn (Non-Halal)', mà ngay lập tức thuật toán Dynamic Routing đã tự động đề xuất và dẫn đường tôi đến một quán ăn chay cách đó 300m đang rất vắng khách. Lần đầu tiên, tôi cảm thấy được tự do khám phá ẩm thực Đà Nẵng mà không bị nỗi sợ hãi cản bước."
+Dữ liệu tương tác bước đầu (Kỳ vọng):
+Hơn $60\%$ người dùng đánh giá tính năng "Camera Scanner kết hợp Cảnh báo Dị ứng/Tôn giáo" là lý do chính khiến họ giữ ứng dụng trên điện thoại trong suốt chuyến đi Đà Nẵng.
+Thuật toán phân luồng (Dynamic Routing) kỳ vọng sẽ chuyển hướng thành công $30\%$ lượng người dùng khỏi các khu vực "Đang quá tải" sang các điểm tham quan văn hóa, ẩm thực thay thế ít đông hơn, góp phần trực tiếp vào mục tiêu Quản lý Quá tải Du lịch (Overtourism Management).
+4. KHUNG KỊCH BẢN GẠCH ĐẦU MỤC ĐỂ SINH VIÊN QUAY VIDEO GIỚI THIỆU Ví dụ như này thôi chưa chốt
+(Thời lượng khuyến nghị: 2 phút 30 giây – 3 phút)
+Phần 1: Mở đầu – Bối cảnh & 3 Điểm nghẽn tại Đà Nẵng (0:00 - 0:40)
+Hình ảnh gợi ý: Cảnh đẹp Đà Nẵng (Cầu Rồng, biển Mỹ Khê, Chợ Đêm Sơn Trà) lồng ghép cảnh du khách bối rối trước bảng menu tiếng Việt hoặc cảnh kẹt xe giờ cao điểm.
+Gạch đầu mục thuyết minh:
+Giới thiệu trực diện: Đà Nẵng đón hàng triệu du khách mỗi năm, nhưng vẫn còn 3 rào cản lớn:
+Rào cản văn hóa & ẩm thực: Người có tiền sử dị ứng hoặc ăn kiêng Halal/thuần chay luôn e ngại các thành phần ẩn trong món ăn địa phương.
+Vấn nạn quá tải du lịch (Overtourism): Du khách đổ dồn vào vài điểm nóng cùng một thời điểm.
+Trải nghiệm số đứt gãy: Vừa phải tra AI, vừa phải mở bản đồ tìm đường.
+Giới thiệu giải pháp: DaNang SmartTour AI – Trợ lý du lịch thông minh và tiếp cận toàn diện cho thành phố Đà Nẵng.
+Phần 2: Trình diễn Tính năng 1 – Lập kế hoạch theo mục tiêu & Phân luồng đám đông (0:40 - 1:25)
+Hình ảnh gợi ý: Thao tác trên giao diện app (chọn mục đích chuyến đi: Văn hóa, Thể thao mạo hiểm, hay Food Tour).
+Gạch đầu mục thuyết minh:
+Tính năng AI Itinerary Planner: Cá nhân hóa cung đường dựa trên Hồ sơ Du khách.
+Minh họa cung đường Mạo hiểm: Trekking Bán đảo Sơn Trà, chèo SUP biển (AI tự kiểm tra và cảnh báo nếu du khách có tiền sử bệnh tim mạch).
+Minh họa cơ chế phân luồng thông minh (Crowd-Aware Routing): Khi Cầu Rồng hoặc Chợ Đêm quá tải, AI tự động gợi ý chuyển hướng sang các điểm văn hóa lân cận như Làng đá Non Nước hoặc phố ẩm thực ít đông hơn.
+Phần 3: Trình diễn Tính năng 2 – Vệ sĩ Văn hóa & Y tế tại chỗ (1:25 - 2:05)
+Hình ảnh gợi ý: Quay màn hình camera điện thoại quét vào bát Mì Quảng hoặc menu quán ăn Đà Nẵng, sau đó quét vào một di tích văn hóa.
+Gạch đầu mục thuyết minh:
+Cơ chế bảo vệ kép: Không chỉ dịch tên, 
+AI bóc tách sâu thành phần ẩn (nước dùng ninh xương heo, dầu phộng, tôm khô) để bảo vệ du khách dị ứng và khách Halal.
+Kể chuyện văn hóa: Quét di tích Ngũ Hành Sơn, AI thuyết minh lịch sử và nhắc nhở trang phục phù hợp bằng chính ngôn ngữ của du khách.
+Phần 4: Giá trị bền vững, Công nghệ tối ưu & Kế hoạch (2:05 - 2:40)
+Hình ảnh gợi ý: Sơ đồ công nghệ tối ưu chi phí và các chỉ số SDG.
+Gạch đầu mục thuyết minh:
+Dự án đóng góp trực tiếp cho SDG 11 (Thành phố bền vững), SDG 8 (Kinh tế bản địa) và SDG 10 (Giảm bất bình đẳng).
+Công nghệ thông minh, tiết kiệm chi phí: Kết hợp Gemini API với nền tảng bản đồ mã nguồn mở OpenStreetMap, giúp ứng dụng vận hành hiệu quả mà không phụ thuộc hạ tầng tính phí đắt đỏ.
+Phần 5: Kết luận & Thông điệp (2:40 - 3:00)
+Hình ảnh gợi ý: Du khách nước ngoài mỉm cười an tâm trải nghiệm ẩm thực và ngắm cảnh Đà Nẵng cùng chiếc điện thoại trên tay.
+Gạch đầu mục thuyết minh:
+"DaNang SmartTour AI – Không chỉ đưa bạn đến Đà Nẵng, mà đồng hành để chuyến đi của bạn an toàn hơn, sâu sắc hơn và bền vững hơn."

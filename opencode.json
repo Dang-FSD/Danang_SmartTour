@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "voke": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Voke API",
+      "options": {
+        "baseURL": "https://api.vokeapi.com/v1",
+        "apiKey": "{env:VOKE_API_KEY}"
+      },
+      "models": {
+        "grok-4.7": { "name": "Grok 4.7" },
+        "deepseek-v4-pro": { "name": "DeepSeek V4 Pro" }
+      }
+    }
+  },
+  "model": "voke/grok-4.7"
+}   

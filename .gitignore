@@ -1,0 +1,25 @@
+# Environment files
+.env
+*.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+vokeapi_test_results.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+*.dart_tool/
+
+# Supabase
+supabase/.temp/

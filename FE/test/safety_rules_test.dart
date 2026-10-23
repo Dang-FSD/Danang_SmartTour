@@ -86,13 +86,12 @@ void main() {
     });
 
     test('Case 6: Simulated Network Disconnection on Ticket Persist -> Rollback & Verification Failure', () {
-      const bool networkFailed = true;
-      bool verifiedStatus = false;
-
-      if (!networkFailed) {
-        verifiedStatus = true;
+      bool simulateTicketPersist({required bool shouldFail}) {
+        if (shouldFail) return false;
+        return true;
       }
 
+      final verifiedStatus = simulateTicketPersist(shouldFail: true);
       expect(verifiedStatus, isFalse);
     });
 

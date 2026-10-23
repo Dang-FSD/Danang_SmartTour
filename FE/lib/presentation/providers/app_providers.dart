@@ -4,6 +4,7 @@ import 'package:danang_smarttour/data/models/attraction_model.dart';
 import 'package:danang_smarttour/data/models/dish_model.dart';
 import 'package:danang_smarttour/data/models/safety_ticket_model.dart';
 import 'package:danang_smarttour/data/models/traveler_profile_model.dart';
+import 'package:danang_smarttour/data/models/itinerary_model.dart';
 import 'package:danang_smarttour/data/repositories/smart_tour_repository.dart';
 
 // Repository Provider
@@ -92,4 +93,14 @@ final savedTicketsProvider =
     StateNotifierProvider<SavedTicketsNotifier, List<SafetyTicket>>((ref) {
   final repo = ref.watch(smartTourRepositoryProvider);
   return SavedTicketsNotifier(repo);
+});
+
+// Active / Generated Itinerary Provider
+final activeItineraryProvider = StateProvider<Itinerary?>((ref) => null);
+
+// Saved Itineraries Provider
+final savedItinerariesProvider = FutureProvider<List<Itinerary>>((ref) async {
+  final repo = ref.watch(smartTourRepositoryProvider);
+  final profile = ref.watch(travelerProfileProvider);
+  return repo.getSavedItineraries(profile.id);
 });

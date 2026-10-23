@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:danang_smarttour/core/constants/app_colors.dart';
 import 'package:danang_smarttour/core/constants/danang_constants.dart';
@@ -8,6 +9,13 @@ import 'package:danang_smarttour/core/utils/safety_evaluator.dart';
 import 'package:danang_smarttour/data/models/attraction_model.dart';
 import 'package:danang_smarttour/presentation/providers/app_providers.dart';
 import 'package:danang_smarttour/presentation/widgets/safety_badge.dart';
+import 'widgets/heritage_story_sheet.dart';
+
+enum CrowdScenario {
+  weekendFireShow,
+  beachRedAlert,
+  normal,
+}
 
 class MapExplorerScreen extends ConsumerStatefulWidget {
   const MapExplorerScreen({super.key});
@@ -19,6 +27,18 @@ class MapExplorerScreen extends ConsumerStatefulWidget {
 class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
   final MapController _mapController = MapController();
   Attraction? _selectedAttraction;
+  CrowdScenario _currentScenario = CrowdScenario.weekendFireShow;
+  bool _isRerouteActive = false;
+
+  // Polyline coordinates from Dragon Bridge to Non Nuoc Stone Village via coastal Vo Nguyen Giap / Truong Sa
+  static const List<LatLng> _reroutePolylinePoints = [
+    LatLng(16.0610, 108.2272), // Cầu Rồng
+    LatLng(16.0590, 108.2370), // Đường Nguyễn Văn Thoại
+    LatLng(16.0580, 108.2450), // Ngã ba Võ Nguyên Giáp
+    LatLng(16.0350, 108.2520), // Dọc bãi biển Mỹ Khê - Ngũ Hành Sơn
+    LatLng(16.0150, 108.2590), // Đường Trường Sa
+    LatLng(16.0028, 108.2639), // Làng đá Mỹ nghệ Non Nước
+  ];
 
   void _onSelectAttraction(Attraction attraction) {
     setState(() {
@@ -27,17 +47,36 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
     _mapController.move(attraction.coordinates, 14.5);
   }
 
-  void _autoRerouteFromDragonBridge(List<Attraction> all) {
-    // Find alternative spot (Non Nuoc Stone Village - ID 3)
+  void _executeSmartReroute(List<Attraction> all) {
+    setState(() {
+      _isRerouteActive = true;
+    });
+
+    // Find destination: Non Nuoc Stone Village (ID 3)
     final alt = all.firstWhere(
       (a) => a.id == 3,
       orElse: () => all.first,
     );
+
     _onSelectAttraction(alt);
+    _mapController.move(const LatLng(16.0320, 108.2450), 12.8);
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         backgroundColor: AppColors.primaryBlue,
-        content: Text('Smart Routing: You have been rerouted to Non Nuoc Stone Carving Village!'),
+        duration: Duration(seconds: 4),
+        content: Row(
+          children: [
+            Icon(Icons.alt_route, color: Colors.white, size: 20),
+            SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                '🔄 Smart Routing: Diverted to Non Nuoc Stone Carving Village (-42 mins saved, supporting SDG 8 local artisans)!',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -50,25 +89,43 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Da Nang Map (OpenStreetMap)'),
+        title: const Text('Da Nang Map Explorer (OpenStreetMap)'),
         backgroundColor: Colors.white,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
         centerTitle: true,
+        actions: [
+          IconButton(
+            tooltip: 'Reset Center',
+            icon: const Icon(Icons.my_location),
+            onPressed: () => _mapController.move(DanangConstants.centerDaNang, DanangConstants.defaultZoom),
+          ),
+        ],
       ),
       body: attractionsAsync.when(
         data: (attractions) {
+          final isDragonCongested = _currentScenario == CrowdScenario.weekendFireShow;
+          final isBeachRisky = _currentScenario == CrowdScenario.beachRedAlert;
+
+          // Build markers
           final markers = attractions.map((attraction) {
             final isSelected = _selectedAttraction?.id == attraction.id;
-            final isOverloaded = attraction.isOverloaded;
+            bool isOverloaded = attraction.isOverloaded;
+
+            if (attraction.id == 2) {
+              isOverloaded = isDragonCongested;
+            } else if (attraction.id == 4) {
+              isOverloaded = isBeachRisky;
+            }
 
             return Marker(
               point: attraction.coordinates,
-              width: 44,
-              height: 44,
+              width: isSelected ? 48 : 42,
+              height: isSelected ? 48 : 42,
               child: GestureDetector(
                 onTap: () => _onSelectAttraction(attraction),
-                child: Container(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
                   decoration: BoxDecoration(
                     color: isOverloaded
                         ? AppColors.flagRed
@@ -77,14 +134,14 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
                             : AppColors.primaryBlue,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isSelected ? Colors.yellowAccent : Colors.white,
-                      width: isSelected ? 3 : 2,
+                      color: isSelected ? Colors.amberAccent : Colors.white,
+                      width: isSelected ? 3.5 : 2,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
+                        color: (isOverloaded ? AppColors.flagRed : Colors.black).withValues(alpha: 0.35),
+                        blurRadius: isSelected ? 10 : 6,
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -95,12 +152,49 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
                             ? Icons.fitness_center
                             : Icons.temple_buddhist,
                     color: Colors.white,
-                    size: 20,
+                    size: isSelected ? 22 : 18,
                   ),
                 ),
               ),
             );
           }).toList();
+
+          // Build circles for congested zones
+          final List<CircleMarker> crowdCircles = [];
+          if (isDragonCongested) {
+            crowdCircles.add(
+              CircleMarker(
+                point: DanangConstants.dragonBridge,
+                color: AppColors.flagRed.withValues(alpha: 0.22),
+                borderColor: AppColors.flagRed,
+                borderStrokeWidth: 2,
+                radius: 40,
+              ),
+            );
+          }
+          if (isBeachRisky) {
+            crowdCircles.add(
+              CircleMarker(
+                point: DanangConstants.myKheBeach,
+                color: AppColors.coralSun.withValues(alpha: 0.25),
+                borderColor: AppColors.coralSun,
+                borderStrokeWidth: 2,
+                radius: 40,
+              ),
+            );
+          }
+
+          // Build polylines for active rerouting
+          final List<Polyline> polylines = [];
+          if (_isRerouteActive || isDragonCongested) {
+            polylines.add(
+              Polyline(
+                points: _reroutePolylinePoints,
+                color: AppColors.primaryBlue,
+                strokeWidth: 4.5,
+              ),
+            );
+          }
 
           return Stack(
             children: [
@@ -116,55 +210,209 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
                     urlTemplate: DanangConstants.osmTileUrl,
                     userAgentPackageName: 'com.danang.smarttour',
                   ),
+                  CircleLayer(circles: crowdCircles),
+                  PolylineLayer(polylines: polylines),
                   MarkerLayer(markers: markers),
                 ],
               ),
 
-              // Overload Alert Banner
+              // Simulation Scenario Control Panel (Top)
               Positioned(
-                top: 12,
+                top: 10,
                 left: 12,
                 right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 8),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.traffic, color: AppColors.flagRed, size: 20),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Text(
-                          'Dragon Bridge: Congested (Fire-Breathing Hour)',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.flagRed,
+                child: Column(
+                  children: [
+                    // Scenario Selector Chips
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.95),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 10),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.tune, color: AppColors.primaryBlue, size: 18),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'Simulation:',
+                            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                           ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  ChoiceChip(
+                                    label: const Text('🔴 Dragon Bridge Peak (450%)', style: TextStyle(fontSize: 11)),
+                                    selected: _currentScenario == CrowdScenario.weekendFireShow,
+                                    selectedColor: AppColors.flagRedBackground,
+                                    labelStyle: TextStyle(
+                                      color: _currentScenario == CrowdScenario.weekendFireShow ? AppColors.flagRed : AppColors.textPrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    onSelected: (val) {
+                                      if (val) {
+                                        setState(() {
+                                          _currentScenario = CrowdScenario.weekendFireShow;
+                                          _isRerouteActive = true;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(width: 6),
+                                  ChoiceChip(
+                                    label: const Text('🌊 High Waves at My Khe', style: TextStyle(fontSize: 11)),
+                                    selected: _currentScenario == CrowdScenario.beachRedAlert,
+                                    selectedColor: const Color(0xFFFFECE5),
+                                    labelStyle: TextStyle(
+                                      color: _currentScenario == CrowdScenario.beachRedAlert ? AppColors.coralSun : AppColors.textPrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    onSelected: (val) {
+                                      if (val) {
+                                        setState(() {
+                                          _currentScenario = CrowdScenario.beachRedAlert;
+                                          _isRerouteActive = false;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(width: 6),
+                                  ChoiceChip(
+                                    label: const Text('🟢 Normal Traffic', style: TextStyle(fontSize: 11)),
+                                    selected: _currentScenario == CrowdScenario.normal,
+                                    selectedColor: AppColors.flagGreenBackground,
+                                    labelStyle: TextStyle(
+                                      color: _currentScenario == CrowdScenario.normal ? AppColors.flagGreen : AppColors.textPrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    onSelected: (val) {
+                                      if (val) {
+                                        setState(() {
+                                          _currentScenario = CrowdScenario.normal;
+                                          _isRerouteActive = false;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Active Alert Banner: Dragon Bridge
+                    if (isDragonCongested)
+                      Container(
+                        margin: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: AppColors.flagRed.withValues(alpha: 0.4)),
+                          boxShadow: [
+                            BoxShadow(color: AppColors.flagRed.withValues(alpha: 0.15), blurRadius: 10),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.traffic, color: AppColors.flagRed, size: 22),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Dragon Bridge: Overcrowded (450% Peak)',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.flagRed,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Bottleneck >45 mins. Suggested: Non Nuoc Stone Village.',
+                                    style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryBlue,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                minimumSize: const Size(80, 32),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              ),
+                              onPressed: () => _executeSmartReroute(attractions),
+                              child: const Text('Reroute ➔', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                       ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: AppColors.flagRedBackground,
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+
+                    // Active Alert Banner: Beach Wave Alert
+                    if (isBeachRisky)
+                      Container(
+                        margin: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: AppColors.coralSun.withValues(alpha: 0.4)),
+                          boxShadow: [
+                            BoxShadow(color: AppColors.coralSun.withValues(alpha: 0.15), blurRadius: 10),
+                          ],
                         ),
-                        onPressed: () => _autoRerouteFromDragonBridge(attractions),
-                        child: const Text(
-                          'Reroute ➔',
-                          style: TextStyle(
-                            color: AppColors.flagRed,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.waves, color: AppColors.coralSun, size: 22),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'High Waves & Rip Currents at My Khe',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.coralSun,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Unsafe for SUP/swimming. Suggested: Cham Museum.',
+                                    style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryBlue,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                minimumSize: const Size(80, 32),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              ),
+                              onPressed: () {
+                                final cham = attractions.firstWhere((a) => a.id == 6, orElse: () => attractions.first);
+                                _onSelectAttraction(cham);
+                              },
+                              child: const Text('View Museum', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
 
@@ -190,7 +438,9 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
     final verdict = SafetyEvaluator.evaluateAttractionSafety(
       attractionName: attraction.nameVi,
       difficulty: attraction.difficulty,
-      isOverloaded: attraction.isOverloaded,
+      isOverloaded: attraction.id == 2
+          ? (_currentScenario == CrowdScenario.weekendFireShow)
+          : (attraction.id == 4 ? (_currentScenario == CrowdScenario.beachRedAlert) : attraction.isOverloaded),
       medicalCondition: profile.medicalCondition,
       fitnessLevel: profile.fitnessLevel,
     );
@@ -199,11 +449,11 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
-            blurRadius: 16,
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 18,
             offset: const Offset(0, 4),
           ),
         ],
@@ -239,37 +489,75 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
 
           // Safety reason in English
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: AppColors.background,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text(
-              verdict.reason,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: verdict.level == SafetyLevel.red
-                    ? AppColors.flagRed
-                    : AppColors.textPrimary,
-              ),
+            child: Row(
+              children: [
+                Icon(
+                  verdict.level == SafetyLevel.red
+                      ? Icons.error_outline
+                      : (verdict.level == SafetyLevel.yellow ? Icons.warning_amber_rounded : Icons.check_circle_outline),
+                  size: 16,
+                  color: verdict.level == SafetyLevel.red
+                      ? AppColors.flagRed
+                      : (verdict.level == SafetyLevel.yellow ? AppColors.flagYellow : AppColors.flagGreen),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    verdict.reason,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: verdict.level == SafetyLevel.red
+                          ? AppColors.flagRed
+                          : (verdict.level == SafetyLevel.yellow ? const Color(0xFF856404) : AppColors.flagGreen),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
 
-          // Turn-by-turn Navigation Button
+          // Dual Action Row: Cultural Story + Turn-by-Turn Navigation
           Row(
             children: [
+              // Cultural Story Button
+              Expanded(
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.goldenSand, width: 1.5),
+                    backgroundColor: const Color(0xFFFFFDF9),
+                    padding: const EdgeInsets.symmetric(vertical: 11),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  icon: const Icon(Icons.temple_buddhist, size: 18, color: Color(0xFF9A6B00)),
+                  label: const Text(
+                    'Heritage Story & Rules',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF9A6B00)),
+                  ),
+                  onPressed: () {
+                    HeritageStorySheet.show(context, attraction);
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // Turn-by-turn Navigation Button
               Expanded(
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 11),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   icon: const Icon(Icons.navigation, size: 18),
-                  label: const Text('Turn-by-turn Navigation'),
+                  label: const Text('Navigation', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                   onPressed: () {
                     DeeplinkHelper.launchNavigation(
                       latitude: attraction.latitude,
@@ -279,7 +567,7 @@ class _MapExplorerScreenState extends ConsumerState<MapExplorerScreen> {
                   },
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => setState(() => _selectedAttraction = null),

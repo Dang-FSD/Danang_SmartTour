@@ -218,5 +218,49 @@
     "requires_kitchen_confirmation": false,
     "category": "Tráng miệng",
     "notes": "Chứa sữa và dừa sấy; an toàn tuyệt đối cho người ăn chay có sữa (lacto-vegetarian)."
+  },
+  {
+    "id": 21,
+    "name_vi": "Bánh mì thịt pate Đà Nẵng",
+    "hidden_ingredients": "Bánh mì vỏ giòn, pate gan heo béo ngậy, thịt nguội, chả lụa heo, bơ trứng gà, rau ngò, sốt ớt chua ngọt",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Bánh mì vỉa hè",
+    "notes": "Chứa pate gan heo và chả thịt heo; tuyệt đối không dùng cho người ăn kiêng thịt heo/Halal/Ăn chay."
+  },
+  {
+    "id": 22,
+    "name_vi": "Bánh mì chả bò Đà Nẵng",
+    "hidden_ingredients": "Chả bò đặc sản Đà Nẵng, tiêu đen, ớt xanh, pate gan heo lót đáy, rau răm ngò rí",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": true,
+    "category": "Bánh mì đặc sản",
+    "notes": "Dù chả làm từ thịt bò nhưng đa phần tiệm vẫn phết pate gan heo lót bánh mì; du khách Halal cần nhờ tiệm không phết pate."
+  },
+  {
+    "id": 23,
+    "name_vi": "Bún chả Hà Nội (Bán tại Đà Nẵng)",
+    "hidden_ingredients": "Thịt ba chỉ heo nướng than, chả thịt heo băm viên nướng, nước mắm pha chua ngọt, đu đủ cà rốt muối",
+    "contains_pork": true,
+    "contains_peanut": false,
+    "is_safe_for_halal": false,
+    "requires_kitchen_confirmation": false,
+    "category": "Món miền Bắc tại Đà Nẵng",
+    "notes": "Món ăn phổ biến tại các tuyến phố ẩm thực Đà Nẵng; chứa hoàn toàn thịt lợn nướng than và nước mắm."
+  },
+  {
+    "id": 24,
+    "name_vi": "Phở bò truyền thống (Bán tại Đà Nẵng)",
+    "hidden_ingredients": "Nước dùng ninh xương bò nguyên chất, thảo quả hoa hồi quế gừng nướng, thịt bò tái/nạm",
+    "contains_pork": false,
+    "contains_peanut": false,
+    "is_safe_for_halal": true,
+    "requires_kitchen_confirmation": false,
+    "category": "Món miền Bắc tại Đà Nẵng",
+    "notes": "Nước dùng thuần bò, không chứa mỡ lợn hay đậu phộng; an toàn cho người kiêng lợn và dị ứng đậu phộng."
   }
 ]

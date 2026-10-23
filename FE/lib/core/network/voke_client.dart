@@ -224,14 +224,94 @@ Traveler Profile:
     );
   }
 
+  /// Lập lịch trình thích ứng thông minh (Adaptive AI Itinerary) dựa trên Hồ sơ Du khách
+  Future<VokeAIResponse> generateAdaptiveItinerary({
+    required Map<String, dynamic> travelerProfile,
+    required String objective, // 'culture', 'adventure', 'culinary'
+    required String duration,  // 'half_day', 'full_day', 'evening'
+    String crowdStatus = 'Dragon Bridge overloaded at 21:00 fire-breathing hour',
+  }) async {
+    const systemPrompt = '''
+You are the DaNang SmartTour AI Multi-Trip Itinerary Planner & Dual-Layer Safety Officer.
+Your mission is to construct an adaptive, safe, culturally immersive Da Nang travel itinerary strictly aligned with the traveler's medical, religious, and fitness profile.
+
+STRICT SAFETY CONSTRAINTS (Zero False-Safe Rule):
+1. CARDIAC / LOW FITNESS:
+   - If traveler has "heart_disease" or "low" fitness: NEVER schedule steep trekking (e.g., Mũi Nghê). You MUST reroute to gentle scenic routes (e.g. Son Tra Douc Langur Walking Trail, Linh Ung Pagoda gentle courtyards). Set "is_rerouted": true.
+2. OVERTOURISM MANAGEMENT (SDG 11):
+   - Dragon Bridge is currently congested at weekend evening hour. If the itinerary includes Dragon Bridge during busy evening hours, reroute to Non Nuoc Stone Carving Village or Night Beach Promenade. Set "is_rerouted": true.
+3. FAITH / HALAL:
+   - If traveler has "halal": NEVER include pork bone broth (e.g. Traditional Bun Cha Ca Da Nang). Recommend certified Halal seafood, vegetarian stalls, or fresh grilled fish with clear safety notice.
+4. ALLERGEN / PEANUT:
+   - If traveler has "peanut" allergy: For dishes like Mi Quang, flag as "YELLOW", requires "No peanut / No peanut oil" chef ticket.
+5. VEGAN / VEGETARIAN:
+   - Only recommend 100% plant-based delicacies (e.g. Bánh Xèo Nấm Chay, Tàu hũ non).
+
+OUTPUT FORMAT:
+Return ONLY a valid JSON object matching this schema:
+{
+  "title": "Inspiring itinerary title",
+  "summary": "2-3 sentences overview of the adaptive experience",
+  "objective": "culture" | "adventure" | "culinary",
+  "duration": "half_day" | "full_day" | "evening",
+  "stops": [
+    {
+      "time_slot": "08:30 - 10:30",
+      "name": "Location or Dish Name",
+      "category": "culture" | "sport" | "food",
+      "safety_level": "GREEN" | "YELLOW" | "RED",
+      "safety_reason": "Specific medical / cultural safety reasoning in English",
+      "is_rerouted": true | false,
+      "original_name": "Original spot if rerouted (or null)",
+      "latitude": 16.0544,
+      "longitude": 108.2022,
+      "chef_ticket_warning": "Warning note in Vietnamese & English if food ticket needed"
+    }
+  ],
+  "sdg_impact": {
+    "sdg11_sustainable_cities": "How overtourism and crowd pressure was alleviated",
+    "sdg8_decent_work": "How local craft villages or authentic eateries are supported",
+    "sdg10_reduced_inequalities": "How health/faith barriers were eliminated"
+  }
+}
+''';
+
+    final prompt = '''
+Traveler Profile:
+- Name: ${travelerProfile['display_name'] ?? 'Traveler'}
+- Physical Fitness: ${travelerProfile['fitness_level'] ?? 'moderate'}
+- Faith / Dietary Rule: ${travelerProfile['diet_rule'] ?? 'None'}
+- Food Allergy: ${travelerProfile['allergen'] ?? 'None'} (${travelerProfile['allergen_severity'] ?? 'N/A'})
+- Medical Condition: ${travelerProfile['medical_condition'] ?? 'None'}
+
+Trip Parameters:
+- Objective: $objective
+- Duration: $duration
+- Live Crowd Status: $crowdStatus
+- City: Da Nang, Vietnam
+
+Generate a cohesive, verified-safe schedule with 3 to 4 sequential stops.
+''';
+
+    return chatCompletion(
+      prompt: prompt,
+      systemPrompt: systemPrompt,
+      temperature: 0.2,
+      maxTokens: 1800,
+    );
+  }
+
   String? _extractJsonString(String raw) {
-    raw = raw.trim();
-    if (raw.startsWith('{') && raw.endsWith('}')) return raw;
-    final codeBlockMatch = RegExp(r'```(?:json)?\s*([\s\S]*?)\s*```').firstMatch(raw);
+    var text = raw.trim();
+    // Strip <think>...</think> if returned by DeepSeek models
+    text = text.replaceAll(RegExp(r'<think>[\s\S]*?</think>'), '').trim();
+
+    if (text.startsWith('{') && text.endsWith('}')) return text;
+    final codeBlockMatch = RegExp(r'```(?:json)?\s*([\s\S]*?)\s*```').firstMatch(text);
     if (codeBlockMatch != null) {
       return codeBlockMatch.group(1)?.trim();
     }
-    final braceMatch = RegExp(r'\{[\s\S]*\}').firstMatch(raw);
+    final braceMatch = RegExp(r'\{[\s\S]*\}').firstMatch(text);
     return braceMatch?.group(0);
   }
 }

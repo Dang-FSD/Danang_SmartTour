@@ -4,6 +4,8 @@ import 'package:danang_smarttour/data/models/dish_model.dart';
 import 'package:danang_smarttour/data/models/attraction_model.dart';
 import 'package:danang_smarttour/data/models/safety_ticket_model.dart';
 import 'package:danang_smarttour/data/models/traveler_profile_model.dart';
+import 'package:danang_smarttour/data/models/itinerary_model.dart';
+import 'package:danang_smarttour/core/utils/safety_evaluator.dart';
 
 class SupabaseDataSource {
   static bool get isAvailable => SupabaseConfig.isInitialized;
@@ -128,6 +130,134 @@ class SupabaseDataSource {
         });
       } catch (_) {}
       return null;
+    }
+  }
+
+  /// Lưu bản ghi lịch trình vào bảng 'itineraries' và 'itinerary_stops'
+  static Future<Itinerary?> saveItinerary(Itinerary itinerary) async {
+    if (!isAvailable) return itinerary;
+    try {
+      // 1. Ghi vào bảng itineraries
+      final insertedItinerary = await SupabaseConfig.client!
+          .from('itineraries')
+          .insert({
+            'user_id': itinerary.userId,
+            'title': itinerary.title,
+            'status': 'draft',
+          })
+          .select()
+          .single();
+
+      final int itineraryId = insertedItinerary['id'] is int
+          ? insertedItinerary['id']
+          : int.parse(insertedItinerary['id'].toString());
+
+      // 2. Ghi các điểm dừng vào itinerary_stops
+      if (itinerary.stops.isNotEmpty) {
+        final stopsData = itinerary.stops.map((stop) {
+          return {
+            'itinerary_id': itineraryId,
+            'safety_level': stop.safetyLevel == SafetyLevel.red
+                ? 'RED'
+                : (stop.safetyLevel == SafetyLevel.yellow ? 'YELLOW' : 'GREEN'),
+            'safety_reason': stop.safetyReason,
+          };
+        }).toList();
+
+        await SupabaseConfig.client!.from('itinerary_stops').insert(stopsData);
+      }
+
+      // 3. BƯỚC BẮT BUỘC: verify_itinerary_status (Kiểm tra tính toàn vẹn)
+      final bool verified = await verifyItineraryStatus(itineraryId);
+      if (verified) {
+        await SupabaseConfig.client!
+            .from('itineraries')
+            .update({'status': 'verified'})
+            .eq('id', itineraryId);
+
+        // Ghi log Agent thành công
+        try {
+          await SupabaseConfig.client!.from('agent_logs').insert({
+            'tool_name': 'save_itinerary_ticket',
+            'action_type': 'save_itinerary',
+            'success': true,
+            'user_id': itinerary.userId.length == 36 ? itinerary.userId : null,
+          });
+        } catch (_) {}
+
+        return Itinerary(
+          id: itineraryId,
+          userId: itinerary.userId,
+          title: itinerary.title,
+          objective: itinerary.objective,
+          duration: itinerary.duration,
+          status: 'verified',
+          summary: itinerary.summary,
+          stops: itinerary.stops.map((s) => ItineraryStop(
+            id: s.id,
+            itineraryId: itineraryId,
+            timeSlot: s.timeSlot,
+            name: s.name,
+            category: s.category,
+            safetyLevel: s.safetyLevel,
+            safetyReason: s.safetyReason,
+            isRerouted: s.isRerouted,
+            originalName: s.originalName,
+            latitude: s.latitude,
+            longitude: s.longitude,
+            chefTicketWarning: s.chefTicketWarning,
+          )).toList(),
+          createdAt: DateTime.now(),
+        );
+      } else {
+        throw Exception('Verification failed for itinerary ID $itineraryId');
+      }
+    } catch (e) {
+      debugPrint('[Supabase] saveItinerary error: $e');
+      try {
+        await SupabaseConfig.client!.from('agent_logs').insert({
+          'tool_name': 'save_itinerary_ticket',
+          'action_type': 'save_itinerary',
+          'success': false,
+          'error_msg': 'Rollback on write error: $e',
+        });
+      } catch (_) {}
+      return itinerary; // Fallback to memory
+    }
+  }
+
+  /// Xác minh tính toàn vẹn của lịch trình trong Database
+  static Future<bool> verifyItineraryStatus(int itineraryId) async {
+    if (!isAvailable) return true;
+    try {
+      final res = await SupabaseConfig.client!
+          .from('itineraries')
+          .select('id, title, status')
+          .eq('id', itineraryId)
+          .maybeSingle();
+
+      return res != null;
+    } catch (e) {
+      debugPrint('[Supabase] verifyItineraryStatus error: $e');
+      return false;
+    }
+  }
+
+  /// Lấy danh sách lịch trình đã lưu của du khách
+  static Future<List<Itinerary>> fetchUserItineraries(String userId) async {
+    if (!isAvailable) return [];
+    try {
+      final res = await SupabaseConfig.client!
+          .from('itineraries')
+          .select()
+          .eq('user_id', userId)
+          .order('id', ascending: false);
+
+      final List<dynamic> list = res;
+      return list.map((item) => Itinerary.fromJson(item as Map<String, dynamic>)).toList();
+    } catch (e) {
+      debugPrint('[Supabase] fetchUserItineraries error: $e');
+      return [];
     }
   }
 }

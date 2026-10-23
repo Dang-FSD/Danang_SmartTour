@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:danang_smarttour/core/constants/app_colors.dart';
+import 'package:danang_smarttour/core/utils/voice_handoff_helper.dart';
 import 'package:danang_smarttour/data/models/safety_ticket_model.dart';
+import 'fullscreen_chef_ticket_screen.dart';
 
 class ChefTicketDialog extends StatelessWidget {
   final SafetyTicket ticket;
@@ -152,7 +154,45 @@ class ChefTicketDialog extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+
+            // Emergency Action Row: Fullscreen Card + Voice Speech
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD97706),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    icon: const Icon(Icons.fullscreen, size: 20),
+                    label: const Text('Fullscreen Card', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                    onPressed: () {
+                      FullscreenChefTicketScreen.open(context, ticket);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton.filledTonal(
+                  style: IconButton.styleFrom(
+                    backgroundColor: AppColors.flagGreenBackground,
+                    foregroundColor: AppColors.flagGreen,
+                    padding: const EdgeInsets.all(12),
+                  ),
+                  icon: const Icon(Icons.volume_up_rounded),
+                  tooltip: 'Speak Vietnamese',
+                  onPressed: () {
+                    VoiceHandoffHelper.speakVietnamese(ticket.bilingualWarning);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Playing Vietnamese voice note for cook...')),
+                    );
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
 
             // Action Buttons
             Row(

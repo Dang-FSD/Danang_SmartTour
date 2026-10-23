@@ -4,6 +4,7 @@ import 'package:danang_smarttour/data/models/dish_model.dart';
 import 'package:danang_smarttour/data/models/attraction_model.dart';
 import 'package:danang_smarttour/data/models/safety_ticket_model.dart';
 import 'package:danang_smarttour/data/models/traveler_profile_model.dart';
+import 'package:danang_smarttour/data/models/itinerary_model.dart';
 
 class SmartTourRepository {
   /// Lấy danh sách món ăn Đà Nẵng (Ưu tiên Supabase, fallback Local)
@@ -49,5 +50,16 @@ class SmartTourRepository {
   /// Đọc danh sách vé an toàn
   List<SafetyTicket> getSavedTickets() {
     return LocalDataSource.getSavedTickets();
+  }
+
+  /// Lưu và xác minh lịch trình thích ứng (Agentic Itinerary)
+  Future<Itinerary> saveItinerary(Itinerary itinerary) async {
+    final remote = await SupabaseDataSource.saveItinerary(itinerary);
+    return remote ?? itinerary;
+  }
+
+  /// Lấy danh sách lịch trình đã lưu
+  Future<List<Itinerary>> getSavedItineraries(String userId) async {
+    return SupabaseDataSource.fetchUserItineraries(userId);
   }
 }

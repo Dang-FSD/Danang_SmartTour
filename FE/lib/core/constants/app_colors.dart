@@ -7,6 +7,7 @@ class AppColors {
   static const Color oceanNavy = Color(0xFF03045E);
   static const Color coastalCyan = Color(0xFF00B4D8);
   static const Color softBlue = Color(0xFF90E0EF);
+  static const Color lightBlue = Color(0xFFE0F2FE);
 
   // Sunny Sand Accents
   static const Color goldenSand = Color(0xFFFFB703);

@@ -44,13 +44,30 @@ class SupabaseDataSource {
   static Future<bool> upsertProfile(TravelerProfile profile) async {
     if (!isAvailable) return false;
     try {
-      // 1. Upsert profiles
-      await SupabaseConfig.client!.from('profiles').upsert(profile.toProfileMap());
+      final profileMap = profile.toProfileMap();
+      final targetUserId = profileMap['id'];
 
-      // 2. Upsert health_profiles
-      await SupabaseConfig.client!
+      // 1. Upsert profiles
+      await SupabaseConfig.client!.from('profiles').upsert(profileMap);
+
+      // 2. Handle health_profiles (check if user already has an entry)
+      final healthData = profile.toHealthProfileMap();
+      final existing = await SupabaseConfig.client!
           .from('health_profiles')
-          .upsert(profile.toHealthProfileMap());
+          .select('id')
+          .eq('user_id', targetUserId)
+          .maybeSingle();
+
+      if (existing != null) {
+        await SupabaseConfig.client!
+            .from('health_profiles')
+            .update(healthData)
+            .eq('id', existing['id']);
+      } else {
+        await SupabaseConfig.client!
+            .from('health_profiles')
+            .insert(healthData);
+      }
 
       return true;
     } catch (e) {

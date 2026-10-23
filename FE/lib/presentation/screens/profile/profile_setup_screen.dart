@@ -32,7 +32,8 @@ class ProfileSetupScreen extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.primaryBlue.withOpacity(0.3)),
+                border:
+                    Border.all(color: AppColors.primaryBlue.withOpacity(0.3)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.04),
@@ -66,22 +67,27 @@ class ProfileSetupScreen extends ConsumerWidget {
                       _buildPresetChip(
                         label: 'Ali (Halal)',
                         selected: profile.dietRule == 'halal',
-                        onTap: () => notifier.switchPreset(TravelerProfile.sampleHalal),
+                        onTap: () =>
+                            notifier.switchPreset(TravelerProfile.sampleHalal),
                       ),
                       _buildPresetChip(
                         label: 'John (Cardiac Patient)',
                         selected: profile.medicalCondition == 'heart_disease',
-                        onTap: () => notifier.switchPreset(TravelerProfile.sampleHeart),
+                        onTap: () =>
+                            notifier.switchPreset(TravelerProfile.sampleHeart),
                       ),
                       _buildPresetChip(
                         label: 'Emma (Peanut Allergy)',
                         selected: profile.allergen == 'peanut',
-                        onTap: () => notifier.switchPreset(TravelerProfile.samplePeanut),
+                        onTap: () =>
+                            notifier.switchPreset(TravelerProfile.samplePeanut),
                       ),
                       _buildPresetChip(
                         label: 'Nam (Vegan & Fit)',
-                        selected: profile.dietRule == 'vegan' && profile.fitnessLevel == 'high',
-                        onTap: () => notifier.switchPreset(TravelerProfile.sampleFitVegan),
+                        selected: profile.dietRule == 'vegan' &&
+                            profile.fitnessLevel == 'high',
+                        onTap: () => notifier
+                            .switchPreset(TravelerProfile.sampleFitVegan),
                       ),
                     ],
                   ),
@@ -101,15 +107,19 @@ class ProfileSetupScreen extends ConsumerWidget {
                     initialValue: profile.displayName,
                     decoration: InputDecoration(
                       labelText: 'Display Name',
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 12),
                     ),
                     onChanged: (val) {
-                      notifier.updateProfile(profile.copyWith(displayName: val));
+                      notifier
+                          .updateProfile(profile.copyWith(displayName: val));
                     },
                   ),
                   const SizedBox(height: 16),
-                  const Text('Physical Fitness Level:', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const Text('Physical Fitness Level:',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 8),
                   SegmentedButton<String>(
                     segments: const [
@@ -118,7 +128,8 @@ class ProfileSetupScreen extends ConsumerWidget {
                       ButtonSegment(value: 'high', label: Text('High / Fit')),
                     ],
                     selected: {profile.fitnessLevel},
-                    onSelectionChanged: (set) => notifier.setFitnessLevel(set.first),
+                    onSelectionChanged: (set) =>
+                        notifier.setFitnessLevel(set.first),
                   ),
                 ],
               ),
@@ -139,14 +150,16 @@ class ProfileSetupScreen extends ConsumerWidget {
                   ),
                   RadioListTile<String?>(
                     title: const Text('Halal (Islamic Dietary Laws)'),
-                    subtitle: const Text('No pork, lard, or bone-stewed broths'),
+                    subtitle:
+                        const Text('No pork, lard, or bone-stewed broths'),
                     value: 'halal',
                     groupValue: profile.dietRule,
                     onChanged: notifier.setDietRule,
                   ),
                   RadioListTile<String?>(
                     title: const Text('Strict Vegan (Plant-based)'),
-                    subtitle: const Text('No meat, seafood, or fermented fish sauces'),
+                    subtitle: const Text(
+                        'No meat, seafood, or fermented fish sauces'),
                     value: 'vegan',
                     groupValue: profile.dietRule,
                     onChanged: notifier.setDietRule,
@@ -164,7 +177,8 @@ class ProfileSetupScreen extends ConsumerWidget {
                 children: [
                   CheckboxListTile(
                     title: const Text('Peanut / Groundnut Allergy'),
-                    subtitle: const Text('High risk in Mi Quang broth, peanut oil, and crushed peanut garnish'),
+                    subtitle: const Text(
+                        'High risk in Mi Quang broth, peanut oil, and crushed peanut garnish'),
                     value: profile.allergen == 'peanut',
                     onChanged: (checked) {
                       if (checked == true) {
@@ -176,7 +190,8 @@ class ProfileSetupScreen extends ConsumerWidget {
                   ),
                   CheckboxListTile(
                     title: const Text('Seafood & Shellfish Allergy'),
-                    subtitle: const Text('High risk in shrimp paste, fish sauce, and Central Vietnamese broths'),
+                    subtitle: const Text(
+                        'High risk in shrimp paste, fish sauce, and Central Vietnamese broths'),
                     value: profile.allergen == 'seafood',
                     onChanged: (checked) {
                       if (checked == true) {
@@ -197,7 +212,8 @@ class ProfileSetupScreen extends ConsumerWidget {
               icon: Icons.favorite,
               child: SwitchListTile(
                 title: const Text('Cardiac Disease / Hypertension History'),
-                subtitle: const Text('Triggers warnings for steep cliffside trekking (Mui Nghe, Ban Co Peak)'),
+                subtitle: const Text(
+                    'Triggers warnings for steep cliffside trekking (Mui Nghe, Ban Co Peak)'),
                 value: profile.medicalCondition == 'heart_disease',
                 onChanged: (active) {
                   notifier.setMedicalCondition(active ? 'heart_disease' : null);
@@ -234,39 +250,37 @@ class ProfileSetupScreen extends ConsumerWidget {
     required IconData icon,
     required Widget child,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: AppColors.primaryBlue, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      elevation: 0,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.black.withOpacity(0.06)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: AppColors.primaryBlue, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const Divider(height: 20),
-          child,
-        ],
+              ],
+            ),
+            const Divider(height: 20),
+            child,
+          ],
+        ),
       ),
     );
   }

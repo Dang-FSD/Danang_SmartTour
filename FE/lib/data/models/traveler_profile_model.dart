@@ -41,9 +41,26 @@ class TravelerProfile {
     );
   }
 
+  static bool isValidUuid(String val) {
+    final regex = RegExp(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
+    return regex.hasMatch(val);
+  }
+
+  String get validUuid {
+    if (isValidUuid(id)) return id;
+    if (id == 'user-halal-01') return '00000000-0000-0000-0000-000000000001';
+    if (id == 'user-heart-02') return '00000000-0000-0000-0000-000000000002';
+    if (id == 'user-peanut-03') return '00000000-0000-0000-0000-000000000003';
+    if (id == 'user-fit-04') return '00000000-0000-0000-0000-000000000004';
+    final clean = id.replaceAll(RegExp(r'[^0-9a-fA-F]'), '');
+    final padded = (clean.isEmpty ? '1' : clean).padLeft(12, '0');
+    final suffix = padded.length > 12 ? padded.substring(padded.length - 12) : padded;
+    return '00000000-0000-0000-0000-$suffix';
+  }
+
   Map<String, dynamic> toProfileMap() {
     return {
-      'id': id,
+      'id': validUuid,
       'display_name': displayName,
       'fitness_level': fitnessLevel,
     };
@@ -51,7 +68,7 @@ class TravelerProfile {
 
   Map<String, dynamic> toHealthProfileMap() {
     return {
-      'user_id': id,
+      'user_id': validUuid,
       'diet_rule': dietRule,
       'allergen': allergen,
       'severity': allergenSeverity,
@@ -79,21 +96,21 @@ class TravelerProfile {
 
   // Các preset mẫu tương ứng với 4 nhóm khách trong Danang_SmartTour_DB.sql
   static const TravelerProfile sampleHalal = TravelerProfile(
-    id: 'user-halal-01',
+    id: '00000000-0000-0000-0000-000000000001',
     displayName: 'Ali (Halal Tourist)',
     fitnessLevel: 'moderate',
     dietRule: 'halal',
   );
 
   static const TravelerProfile sampleHeart = TravelerProfile(
-    id: 'user-heart-02',
+    id: '00000000-0000-0000-0000-000000000002',
     displayName: 'John (Cardiac Patient)',
     fitnessLevel: 'low',
     medicalCondition: 'heart_disease',
   );
 
   static const TravelerProfile samplePeanut = TravelerProfile(
-    id: 'user-peanut-03',
+    id: '00000000-0000-0000-0000-000000000003',
     displayName: 'Emma (Peanut Allergy)',
     fitnessLevel: 'moderate',
     allergen: 'peanut',
@@ -101,7 +118,7 @@ class TravelerProfile {
   );
 
   static const TravelerProfile sampleFitVegan = TravelerProfile(
-    id: 'user-fit-04',
+    id: '00000000-0000-0000-0000-000000000004',
     displayName: 'Nam (Vegan & Fit)',
     fitnessLevel: 'high',
     dietRule: 'vegan',

@@ -87,13 +87,57 @@ CREATE TABLE safety_tickets (
 CREATE TABLE agent_logs (
     id SERIAL PRIMARY KEY,
     user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
-    action_type TEXT NOT NULL,               -- Ví dụ: 'save_ticket'
+    action_type TEXT DEFAULT 'tool_call',    -- Ví dụ: 'save_ticket'
+    tool_name TEXT,                          -- Tên tool Agent gọi (ví dụ: 'save_itinerary_ticket')
     success BOOLEAN NOT NULL,                -- TRUE/FALSE
-    error_msg TEXT
+    error_msg TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- ============================================================
--- 03. THÊM DỮ LIỆU MẪU (SEED DATA - KHO TRI THỨC ĐÀ NẴNG)
+-- 03. CHÍNH SÁCH BẢO MẬT (ROW LEVEL SECURITY - RLS POLICIES)
+-- Cấp quyền truy cập cho Anon Public Key của Mobile App
+-- ============================================================
+
+-- Bật RLS
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE health_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE dishes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE attractions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE itineraries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE itinerary_stops ENABLE ROW LEVEL SECURITY;
+ALTER TABLE safety_tickets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE agent_logs ENABLE ROW LEVEL SECURITY;
+
+-- Cấp quyền Đọc công khai
+DROP POLICY IF EXISTS "Allow public read dishes" ON dishes;
+CREATE POLICY "Allow public read dishes" ON dishes FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public read attractions" ON attractions;
+CREATE POLICY "Allow public read attractions" ON attractions FOR SELECT USING (true);
+
+-- Cấp toàn quyền cho profiles & health_profiles
+DROP POLICY IF EXISTS "Allow full access to profiles" ON profiles;
+CREATE POLICY "Allow full access to profiles" ON profiles FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow full access to health_profiles" ON health_profiles;
+CREATE POLICY "Allow full access to health_profiles" ON health_profiles FOR ALL USING (true) WITH CHECK (true);
+
+-- Cấp toàn quyền cho safety_tickets & itineraries
+DROP POLICY IF EXISTS "Allow full access to safety_tickets" ON safety_tickets;
+CREATE POLICY "Allow full access to safety_tickets" ON safety_tickets FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow full access to itineraries" ON itineraries;
+CREATE POLICY "Allow full access to itineraries" ON itineraries FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow full access to itinerary_stops" ON itinerary_stops;
+CREATE POLICY "Allow full access to itinerary_stops" ON itinerary_stops FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow full access to agent_logs" ON agent_logs;
+CREATE POLICY "Allow full access to agent_logs" ON agent_logs FOR ALL USING (true) WITH CHECK (true);
+
+-- ============================================================
+-- 04. THÊM DỮ LIỆU MẪU (SEED DATA - KHO TRI THỨC ĐÀ NẴNG)
 -- ============================================================
 
 -- Thêm Món ăn (Tri thức ngầm)
